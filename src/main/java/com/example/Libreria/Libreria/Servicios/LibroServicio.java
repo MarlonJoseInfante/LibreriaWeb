@@ -5,6 +5,7 @@ import com.example.Libreria.Libreria.Entidades.Libro;
 import com.example.Libreria.Libreria.Excepciones.WebException;
 import com.example.Libreria.Libreria.Repositorios.LibroRepositorio;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,9 @@ public class LibroServicio {
     
     public List<Libro> listAll(){
         return libroRepositorio.findAll();
+    }
+    
+    public Optional<Libro> findById(String id){
+        return libroRepositorio.findById(id);
     }
 }
