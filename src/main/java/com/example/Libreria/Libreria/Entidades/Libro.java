@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,9 +25,9 @@ public class Libro implements Serializable{
     private Integer ejemplaresPrestados;
     private Integer ejemplaresRestantes;
     private Boolean alta;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Autor autor;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Editorial editorial;
 
     public String getId() {

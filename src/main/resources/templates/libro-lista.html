@@ -25,7 +25,7 @@
     <table class="table bg-light bg-opacity-50 container text-center">
         <thead>
           <tr>
-            <th scope="col" >N°</th>
+            <th scope="col" >Año</th>
             <th scope="col">Titulo</th>
             <th scope="col">Autor</th>
             <th scope="col">Editorial</th>
@@ -36,8 +36,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each=" l,iterator: ${libro}">
-              <td th:text="${iterator.index+1}"></td>
+          <tr th:each=" l: ${libro}">
+              <td th:text="${l.anio}"></td>
               <td th:text="${l.titulo}"></td>
               <td th:text="${l.autor.nombre}"></td>
               <td th:text="${l.editorial.nombre}"></td>
@@ -47,8 +47,8 @@
               <td>
                 <a href="#" class="btn btn-primary">Solicitar</a>
                 <a href="#" class="btn btn-success">Devolver</a>
-                <a href="#" class="btn btn-secondary">Editar</a>
-                <a href="#" class="btn btn-danger">Eliminar</a>
+                <a th:href="@{/libro/form}+'?id='+${l.id}" class="btn btn-secondary">Editar</a>
+                <a th:href="@{/libro/delete}+'?id='+${l.id}" class="btn btn-danger">Eliminar</a>
               </td>
             <td></td>
           </tr>

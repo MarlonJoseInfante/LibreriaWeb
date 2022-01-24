@@ -25,7 +25,7 @@ public class LibroControlador {
 
     @Autowired
     private AutorServicio autorServicio;
-
+    
     @Autowired
     private EditorialServicio editorialServicio;
 
@@ -65,6 +65,12 @@ public class LibroControlador {
             model.addAttribute("editorial", editorialServicio.listAll());
             return "libro-form";
         }
+        return "redirect:/libro/lista";
+    }
+    
+    @GetMapping("/delete")
+    public String eliminarLibro(@RequestParam(required = true) String id){
+        libroServicio.deleteById(id);
         return "redirect:/libro/lista";
     }
 }

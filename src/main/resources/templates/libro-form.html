@@ -21,6 +21,9 @@
         <a th:href="@{/libro/lista}" class="btn btn-secondary px-5 py-2 mb-3 ms-3">Volver</a>
       </nav>
         <form class="col-8 mx-auto bg-light bg-opacity-50 " th:action="@{/libro/save}" method="POST" th:object="${libro}">
+          <div class="mb-3">
+            <input hidden th:field="*{id}" />
+          </div>
             <div class="mb-3">
               <label for="titulo" class="form-label">Titulo del Libro:</label>
               <input type="text" class="form-control" th:field="*{titulo}">
