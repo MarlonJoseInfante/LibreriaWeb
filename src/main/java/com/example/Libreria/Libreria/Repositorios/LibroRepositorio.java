@@ -13,5 +13,8 @@ public interface LibroRepositorio extends JpaRepository<Libro, String>{
     
 @Query("select l from Libro l where l.autor.nombre = :n")
 List<Libro> findAllByAutor(@Param("n") String n);
+
+@Query("select l from Libro l where l.editorial.nombre = :n")
+List<Libro> findAllByEditorial(@Param("n") String n);
     
 }

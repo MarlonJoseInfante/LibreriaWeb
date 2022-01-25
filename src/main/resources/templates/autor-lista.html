@@ -14,6 +14,10 @@
 <body>
     <h1 class="text-center bg-light">Libreria Web</h1>
     <h2 class="text-center bg-light">Lista de Autores</h2>
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show ms-2 me-2" role="alert">
+      <strong th:text="${success}"></strong> 
+      <button type="button" class="btn-close px-1 py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <nav class="d-flex justify-content-between">
       <a th:href="@{/}" class="btn btn-light px-5 py-2 mb-3 ms-3">Volver</a>
       <a th:href="@{/autor/form}" class="btn btn-secondary px-5 py-2 mb-3 me-3">Registrar Autor</a>
@@ -27,12 +31,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each=" a,iterator: ${autores}">
+          <tr th:each=" a,iterator: ${autor}">
               <td th:text="${iterator.index+1}"></td>
               <td th:text="${a.nombre}"></td>
               <td>
-                <a href="#" class="btn btn-primary">Editar</a>
-                <a href="#" class="btn btn-danger">Eliminar</a>
+                <a th:href="@{/autor/form}+'?id='+${a.id}" class="btn btn-primary">Editar</a>
+                <a th:href="@{/autor/delete}+'?id='+${a.id}" class="btn btn-danger">Eliminar</a>
               </td>
             <td></td>
           </tr>

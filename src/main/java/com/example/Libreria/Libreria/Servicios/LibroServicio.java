@@ -1,6 +1,7 @@
 package com.example.Libreria.Libreria.Servicios;
 
 import com.example.Libreria.Libreria.Entidades.Autor;
+import com.example.Libreria.Libreria.Entidades.Editorial;
 import com.example.Libreria.Libreria.Entidades.Libro;
 import com.example.Libreria.Libreria.Excepciones.WebException;
 import com.example.Libreria.Libreria.Repositorios.LibroRepositorio;
@@ -57,6 +58,10 @@ public class LibroServicio {
     public List<Libro> findAllByAutor(String nombre){
         return libroRepositorio.findAllByAutor(nombre);
     }
+    
+    public List<Libro> findAllByEditorial(String nombre){
+        return libroRepositorio.findAllByEditorial(nombre);
+    }
     public Optional<Libro> findById(String id) {
         return libroRepositorio.findById(id);
     }
@@ -79,6 +84,15 @@ public class LibroServicio {
         List<Libro> libros= findAllByAutor(autor.getNombre());
         for (Libro libro : libros) {
             libro.setAutor(null);
+        }
+        libroRepositorio.saveAll(libros);
+    }
+    
+    @Transactional
+    public void deleteFieldEditorial(Editorial editorial){
+        List<Libro> libros= findAllByEditorial(editorial.getNombre());
+        for (Libro libro : libros) {
+            libro.setEditorial(null);
         }
         libroRepositorio.saveAll(libros);
     }

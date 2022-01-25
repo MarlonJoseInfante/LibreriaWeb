@@ -17,8 +17,9 @@
       <button type="button" class="btn-close px-1 py-2 " data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="mt-3">
-      <nav>
+      <nav class="d-flex justify-content-between">
         <a th:href="@{/libro/lista}" class="btn btn-secondary px-5 py-2 mb-3 ms-3">Volver</a>
+        <a th:href="@{/}" class="btn btn-light px-5 py-2 mb-3 me-3">Inicio</a>
       </nav>
         <form class="col-8 mx-auto bg-light bg-opacity-50 " th:action="@{/libro/save}" method="POST" th:object="${libro}">
           <div class="mb-3">
