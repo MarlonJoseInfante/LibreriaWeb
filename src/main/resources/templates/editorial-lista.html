@@ -22,6 +22,14 @@
       <a th:href="@{/}" class="btn btn-light px-5 py-2 mb-3 ms-3">Volver</a>
       <a th:href="@{/editorial/form}" class="btn btn-secondary px-5 py-2 mb-3 me-3">Registrar Editorial</a>
     </nav>
+    <form class="container" th:action="@{/editorial/lista}" method="GET" >
+      <div class="">
+        <input type="text" name="n" placeholder="Busqueda" style="width: 100%;">
+      </div>
+      <div class="mt-2">
+        <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+      </div>
+    </form>
     <table class="table bg-light bg-opacity-50 container text-center">
         <thead>
           <tr>

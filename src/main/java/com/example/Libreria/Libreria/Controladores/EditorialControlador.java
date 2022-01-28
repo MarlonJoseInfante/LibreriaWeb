@@ -50,8 +50,12 @@ public class EditorialControlador {
     }
     
     @GetMapping("/lista")
-    public String listaEditorial(Model model){
-        model.addAttribute("editorial", editorialServicio.listAll());
+    public String listaEditorial(Model model, @RequestParam(required = false) String n){
+        if (n!=null) {
+            model.addAttribute("editorial", editorialServicio.findAllByN(n));
+        } else {
+            model.addAttribute("editorial", editorialServicio.listAll());
+        }
         return "editorial-lista";
     }
     

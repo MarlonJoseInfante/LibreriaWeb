@@ -37,6 +37,9 @@ public class EditorialServicio {
         return editorialRepositorio.findById(id);
     }
     
+    public List<Editorial> findAllByN(String n){
+        return editorialRepositorio.findAllByN("%"+n+"%");
+    }
     public Editorial findById(Editorial editorial){
         Optional<Editorial> optional= editorialRepositorio.findById(editorial.getId());
         if (optional.isPresent()) {

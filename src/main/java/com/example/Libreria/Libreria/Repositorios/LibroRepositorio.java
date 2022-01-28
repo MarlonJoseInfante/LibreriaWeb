@@ -1,4 +1,3 @@
-
 package com.example.Libreria.Libreria.Repositorios;
 
 import com.example.Libreria.Libreria.Entidades.Libro;
@@ -17,4 +16,10 @@ List<Libro> findAllByAutor(@Param("n") String n);
 @Query("select l from Libro l where l.editorial.nombre = :n")
 List<Libro> findAllByEditorial(@Param("n") String n);
     
+@Query("select l from Libro l where l.titulo LIKE :n or l.autor.nombre LIKE :n or l.editorial.nombre LIKE :n")
+List<Libro> findAllByN(@Param("n") String n);
+
+@Query("select l from Libro l where l.anio = :n")
+List<Libro> findAllByAnio(@Param ("n") Integer n);
+
 }

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AutorRepositorio extends JpaRepository<Autor, String>{
-    /*@Query("select a from Autor where a.Autor LIKE :b ")
-    List<Autor> findAll(@Param("b") String b);*/
+    @Query("select a from Autor a where a.nombre LIKE :n ")
+    List<Autor> findAllByN(@Param("n") String n);
 }

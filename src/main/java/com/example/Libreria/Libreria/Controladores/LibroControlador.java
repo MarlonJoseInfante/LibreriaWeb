@@ -25,13 +25,22 @@ public class LibroControlador {
 
     @Autowired
     private AutorServicio autorServicio;
-    
+
     @Autowired
     private EditorialServicio editorialServicio;
 
     @GetMapping("/lista")
-    public String listaLibros(Model model) {
+    public String listaLibros(Model model, @RequestParam(required = false) String n) {
+        if (n != null) {
+            try {
+                Integer numero=Integer.parseInt(n);
+                model.addAttribute("libro", libroServicio.findByAnio(numero));
+            } catch (Exception e) {
+                model.addAttribute("libro", libroServicio.findAllByN(n));
+            }
+        } else {
         model.addAttribute("libro", libroServicio.listAll());
+        }
         return "libro-lista";
     }
 
@@ -57,19 +66,19 @@ public class LibroControlador {
         try {
             libroServicio.save(libro);
             redirectAttributes.addFlashAttribute("success", "Libro registrado con exito");
-            
+
         } catch (WebException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("libro", libro);
-            model.addAttribute("autor",autorServicio.listAll() );
+            model.addAttribute("autor", autorServicio.listAll());
             model.addAttribute("editorial", editorialServicio.listAll());
             return "libro-form";
         }
         return "redirect:/libro/lista";
     }
-    
+
     @GetMapping("/delete")
-    public String eliminarLibro(@RequestParam(required = true) String id){
+    public String eliminarLibro(@RequestParam(required = true) String id) {
         libroServicio.deleteById(id);
         return "redirect:/libro/lista";
     }

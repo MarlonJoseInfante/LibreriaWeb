@@ -23,9 +23,12 @@ public class AutorControlador {
     private AutorServicio autorServicio;
 
     @GetMapping("/lista")
-    public String listaAutores(Model model) {
-
+    public String listaAutores(Model model, @RequestParam (required = false) String n) {
+        if (n!=null) {
+            model.addAttribute("autor", autorServicio.findAllByN(n));
+        } else {
         model.addAttribute("autor", autorServicio.listAll());
+        }
         return "autor-lista";
     }
 

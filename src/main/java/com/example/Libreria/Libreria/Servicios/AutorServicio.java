@@ -36,6 +36,9 @@ public class AutorServicio {
     public Optional<Autor> findById(String id){
         return autorRepositorio.findById(id);
     }
+    public List<Autor> findAllByN(String n ){
+        return autorRepositorio.findAllByN("%"+n+"%");
+    }
     
     public Autor findById(Autor autor){
         Optional<Autor> optional= autorRepositorio.findById(autor.getId());
