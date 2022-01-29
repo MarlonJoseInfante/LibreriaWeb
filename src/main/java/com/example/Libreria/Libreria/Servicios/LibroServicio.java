@@ -132,4 +132,27 @@ public class LibroServicio {
 //            
 //        }
 //    }
+    
+    public Integer cantidadLibrosPrestados(Libro libro, int a){
+        if (a!=1) {
+            libro.setEjemplaresPrestados(0);
+            return libro.getEjemplaresPrestados();
+        } else {
+            Integer prestados= libro.getEjemplaresPrestados();
+            prestados++;
+            libro.setEjemplaresPrestados(prestados);
+            return libro.getEjemplaresPrestados();
+        }
+        
+        
+    }
+    
+    public Integer cantidadLibrosDisponibles(Libro libro){
+        if (cantidadLibrosPrestados(libro)==0) {
+            libro.setEjemplaresRestantes(libro.getEjemplares());
+            return libro.getEjemplares();
+        } else {
+            return  libro.getEjemplares()-cantidadLibrosPrestados(libro);
+        }
+    }
 }
