@@ -22,4 +22,7 @@ List<Libro> findAllByN(@Param("n") String n);
 @Query("select l from Libro l where l.anio = :n")
 List<Libro> findAllByAnio(@Param ("n") Integer n);
 
+@Query("select l from Libro l where l.id = :n")
+List <Libro> existeLibroIgual(@Param("n") String n);
+
 }

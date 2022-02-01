@@ -30,7 +30,7 @@ public class LibroControlador {
     private EditorialServicio editorialServicio;
 
     @GetMapping("/lista")
-    public String listaLibros(Model model, @RequestParam(required = false) String n) {
+    public String listaLibros(Model model, @RequestParam(required = false) String n, Libro libro) {
         if (n != null) {
             try {
                 Integer numero=Integer.parseInt(n);
@@ -54,7 +54,7 @@ public class LibroControlador {
                 return "redirect:/libro/lista";
             }
         } else {
-            model.addAttribute("libro", new Libro());
+            model.addAttribute("libro",new Libro());
         }
         model.addAttribute("autor", autorServicio.listAll());
         model.addAttribute("editorial", editorialServicio.listAll());
@@ -63,7 +63,8 @@ public class LibroControlador {
 
     @PostMapping("/save")
     public String guardarLibro(Model model, @ModelAttribute Libro libro, RedirectAttributes redirectAttributes) {
-        try {
+        if (libroServicio.existenciaLibro(libro.getId())== true) {
+             try {
             libroServicio.save(libro);
             redirectAttributes.addFlashAttribute("success", "Libro registrado con exito");
 
@@ -74,6 +75,20 @@ public class LibroControlador {
             model.addAttribute("editorial", editorialServicio.listAll());
             return "libro-form";
         }
+        } else {
+            try{
+            libroServicio.saveFirst(libro);
+            redirectAttributes.addFlashAttribute("success", "Libro registrado con exito");
+
+        } catch (WebException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("libro", libro);
+            model.addAttribute("autor", autorServicio.listAll());
+            model.addAttribute("editorial", editorialServicio.listAll());
+            return "libro-form";
+        }
+        }
+       
         return "redirect:/libro/lista";
     }
 
