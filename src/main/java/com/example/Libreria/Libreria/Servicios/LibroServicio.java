@@ -48,18 +48,24 @@ public class LibroServicio {
         }
         if (libro.getEjemplares() == null || libro.getEjemplares() < 0) {
             throw new WebException("La cantidad de libros no debe ser nula ni negativa");
-        }else{
-            libro.setEjemplaresRestantes(libro.getEjemplares());
-            libro.setEjemplaresPrestados(libro.getEjemplares()-libro.getEjemplaresRestantes());
+        } else {
+            Optional<Libro> optional = libroRepositorio.findById(libro.getId());
+            Libro libro1;
+            if (optional.isPresent()) {
+                libro1 = optional.get();
+                libro.setEjemplaresRestantes(libro.getEjemplares() - libro1.getEjemplaresPrestados());
+                libro.setEjemplaresPrestados(libro.getEjemplares() - libro.getEjemplaresRestantes());
+            }
+
         }
         if (libro.getTitulo() != null && !libro.getTitulo().isEmpty() && libro.getAutor() != null && libro.getEditorial() != null && libro.getISBN() != null && libro.getAnio() != null) {
             libro.setAlta(Boolean.TRUE);
         }
         return libroRepositorio.save(libro);
-        
+
     }
-    
-     public Libro saveFirst(Libro libro) throws WebException {
+
+    public Libro saveFirst(Libro libro) throws WebException {
 
         if (libro.getTitulo() == null || libro.getTitulo().isEmpty()) {
             throw new WebException("El titulo del libro no puede ser nulo o estar vacio");
@@ -82,7 +88,7 @@ public class LibroServicio {
         }
         if (libro.getEjemplares() == null || libro.getEjemplares() < 0) {
             throw new WebException("La cantidad de libros no debe ser nula ni negativa");
-        }else{
+        } else {
             libro.setEjemplaresRestantes(libro.getEjemplares());
             libro.setEjemplaresPrestados(0);
         }
@@ -90,15 +96,66 @@ public class LibroServicio {
             libro.setAlta(Boolean.TRUE);
         }
         return libroRepositorio.save(libro);
-        
+
     }
-    
+
+//    public void cantidadLibros(String n, Libro libro) {
+//        if (n.equalsIgnoreCase("s")) {
+//            Integer prestados = libro.getEjemplaresPrestados();
+//            prestados++;
+//            libro.setEjemplaresPrestados(prestados);
+//            libro.setEjemplaresRestantes(libro.getEjemplares() - prestados);
+//        }
+//        if (n.equalsIgnoreCase("d")) {
+//            Integer disponibles = libro.getEjemplaresRestantes();
+//            disponibles++;
+//            libro.setEjemplaresRestantes(disponibles);
+//            libro.setEjemplaresPrestados(libro.getEjemplares() - disponibles);
+//        }
+//    }
+    @Transactional
+    public void librosPrestados(String id) throws WebException{
+        if (id!=null) {
+            Optional<Libro> optional= libroRepositorio.findById(id);
+            if (optional.isPresent()) {
+                Libro libro= optional.get();
+                if (libro.getEjemplaresPrestados()>=libro.getEjemplares()) {
+                   throw new WebException("No hay libros disponibles para prestar");
+                }else{
+                    Integer prestados= libro.getEjemplaresPrestados();
+                    prestados++;
+                    libro.setEjemplaresPrestados(prestados);
+                    Integer disponibles= libro.getEjemplaresRestantes();
+                    disponibles--;
+                    libro.setEjemplaresRestantes(disponibles);
+                }
+            }
+        }
+    }
+    @Transactional
+    public void librosDisponibles(String id) throws WebException{
+        if (id!=null) {
+            Optional<Libro> optional= libroRepositorio.findById(id);
+            if (optional.isPresent()) {
+                Libro libro= optional.get();
+                if (libro.getEjemplares()!=libro.getEjemplaresRestantes()) {
+                    Integer disponibles= libro.getEjemplaresRestantes();
+                    disponibles++;
+                    libro.setEjemplaresRestantes(disponibles);
+                    Integer prestados= libro.getEjemplaresPrestados();
+                    prestados--;
+                    libro.setEjemplaresPrestados(prestados);
+                } else {
+                    throw new WebException("No hay libros para devolver");
+                }
+            }
+        }
+    }
 //    @Transactional
 //    public Libro librosDisponiblesFirst(Libro libro){
 //        
 //        return libro;
 //    }
-    
 
     public List<Libro> listAll() {
         return libroRepositorio.findAll();
@@ -111,20 +168,21 @@ public class LibroServicio {
     public List<Libro> findAllByEditorial(String nombre) {
         return libroRepositorio.findAllByEditorial(nombre);
     }
- 
+
     public Optional<Libro> findById(String id) {
         return libroRepositorio.findById(id);
     }
 
-    public List<Libro> findAllByN(String n){
-        return libroRepositorio.findAllByN("%"+n+"%");
+    public List<Libro> findAllByN(String n) {
+        return libroRepositorio.findAllByN("%" + n + "%");
     }
-    public List<Libro> findByAnio(Integer n){
+
+    public List<Libro> findByAnio(Integer n) {
         return libroRepositorio.findAllByAnio(n);
     }
-    
-    public List <Libro> existeLibroIgual(String n){
-        return libroRepositorio.existeLibroIgual("%"+n+"%");
+
+    public List<Libro> existeLibroIgual(String n) {
+        return libroRepositorio.existeLibroIgual("%" + n + "%");
     }
 //    public boolean existenciaLibro(String n){
 //        List<Libro> libro= existeLibroIgual(n);
@@ -134,21 +192,22 @@ public class LibroServicio {
 //            return true;
 //        }
 //    }
-    
-    public boolean existenciaLibro(String id){
-        Optional <Libro> optional = libroRepositorio.findById(id);
+
+    public boolean existenciaLibro(String id) {
+        Optional<Libro> optional = libroRepositorio.findById(id);
         if (optional.isPresent()) {
             return true;
         } else {
             return false;
         }
     }
+
     @Transactional
     public void delete(Libro libro) {
         libroRepositorio.delete(libro);
     }
 
-     @Transactional
+    @Transactional
     public void deleteById(String id) {
         Optional<Libro> optional = libroRepositorio.findById(id);
         if (optional.isPresent()) {
@@ -198,7 +257,6 @@ public class LibroServicio {
 //            
 //        }
 //    }
-    
 //    
 //    public Integer librosDisponibles(Libro libro, String m){
 //        if (libro.getEjemplares()!=0) {

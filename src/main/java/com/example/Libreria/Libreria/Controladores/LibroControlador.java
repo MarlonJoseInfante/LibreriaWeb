@@ -97,4 +97,27 @@ public class LibroControlador {
         libroServicio.deleteById(id);
         return "redirect:/libro/lista";
     }
+    
+    @GetMapping("prestar")
+    public String prestarLibro(@RequestParam(required = true) String id, RedirectAttributes redirectAttributes) throws WebException{
+        try {
+        libroServicio.librosPrestados(id);
+        redirectAttributes.addFlashAttribute("success1", "Libro prestado con exito");
+            
+        } catch (WebException e) {
+           redirectAttributes.addFlashAttribute("error1", e.getMessage());
+        }
+       return "redirect:/libro/lista";
+    }
+    
+    @GetMapping("devolver")
+    public String devolverLibro(@RequestParam(required = true) String id, RedirectAttributes redirectAttributes){
+        try {
+            libroServicio.librosDisponibles(id);
+            redirectAttributes.addFlashAttribute("success2", "Libro devuelto con exito");
+        } catch (WebException e) {
+            redirectAttributes.addFlashAttribute("error2", e.getMessage());
+        }
+        return "redirect:/libro/lista";
+    }
 }

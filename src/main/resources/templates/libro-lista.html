@@ -18,6 +18,22 @@
       <strong th:text="${success}"></strong> 
       <button type="button" class="btn-close px-1 py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <div th:if="${success1}" class="alert alert-success alert-dismissible fade show ms-2 me-2" role="alert">
+      <strong th:text="${success}"></strong> 
+      <button type="button" class="btn-close px-1 py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error1}" class="alert alert-warning alert-dismissible fade show ms-2 me-2" role="alert">
+      <strong th:text="${error}"></strong>
+      <button type="button" class="btn-close px-1 py-2 " data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${success2}" class="alert alert-success alert-dismissible fade show ms-2 me-2" role="alert">
+      <strong th:text="${success}"></strong> 
+      <button type="button" class="btn-close px-1 py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error2}" class="alert alert-warning alert-dismissible fade show ms-2 me-2" role="alert">
+      <strong th:text="${error}"></strong>
+      <button type="button" class="btn-close px-1 py-2 " data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <nav class="d-flex justify-content-between">
       <a th:href="@{/}" class="btn btn-secondary px-5 py-2 mb-3 ms-3">Volver</a>
       <a th:href="@{/libro/form}" class="btn btn-light px-5 py-2 mb-3 me-3">Crear Libro</a>
@@ -53,8 +69,8 @@
               <td th:text="${l.ejemplaresPrestados}"></td>
               <td th:text="${l.ejemplaresRestantes}"></td>
               <td>
-                <a href="#" class="btn btn-primary">Solicitar</a>
-                <a href="#" class="btn btn-success">Devolver</a>
+                <a th:href="@{/libro/prestar}+'?id='+${l.id}" class="btn btn-primary">Solicitar</a>
+                <a th:href="@{/libro/devolver}+'?id='+${l.id}" class="btn btn-success">Devolver</a>
                 <a th:href="@{/libro/form}+'?id='+${l.id}" class="btn btn-secondary">Editar</a>
                 <a th:href="@{/libro/delete}+'?id='+${l.id}" class="btn btn-danger">Eliminar</a>
               </td>
